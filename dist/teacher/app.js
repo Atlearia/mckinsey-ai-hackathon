@@ -54,26 +54,31 @@ const approaches=[
    known:'Correctly doubles 18 to get the 36-slice target.',
    next:'Check whether there are 12 cheese slices for the six cheese-only guests.',
    question:'How can I compare these?',
+   inference:'may overlook toppings when comparing pizzas, counting 36 slices even though only 6 are cheese.',
    hint:'Cheese classic has 8 cheese slices. Half & half has 6. Which fills more two-slice cheese plates?'},
   {cart:[0,4,1],note:'I counted 44 slices. That is more than 36, so all six cheese eaters are covered.',
    known:'Compares the order total with 36 correctly.',
    next:'Separate the cheese slices before checking who can eat.',
    question:'There are enough slices. Why are kids still waiting?',
+   inference:'may miss who can eat which slices because they count all 44 together.',
    hint:'Your half-and-half gives you 6 cheese slices. Make plates of 2. How many cheese eaters get a plate?'},
   {cart:[1,2,0],note:'Three kids get six slices. For the big group I checked whether my order had at least 18 slices.',
    known:'Makes three equal groups of two in a small example.',
    next:'Apply the same grouping to all 18 children.',
    question:'I have 24 slices for 18 kids. Is that enough?',
+   inference:'may be counting one slice per child, aiming for 18 slices for 18 kids.',
    hint:'Put your 24 slices into pairs. How many children could take one pair?'},
   {cart:[1,2,2],receiptEstimate:84,note:'The pizzas cost $76. Two Trio pizzas mean two $4 fees, so I got $84.',
    known:'Adds the pizza prices correctly to get $76.',
    next:'Distinguish a fee per delivery from a price per pizza.',
    question:'I got $84. Why does the receipt say $80?',
+   inference:'may think delivery costs $4 per pizza because they added the fee twice.',
    hint:'Both Trio pizzas arrive in one delivery. What do you get when you add $4 to $76 once?'},
   {cart:[2,3,0],note:'I need 36 slices, including 12 cheese. I have 40 slices and 16 are cheese. My $61 order fits.',
    known:'Checks total slices, cheese portions and price separately.',
    next:'Adjust the plan when four more guests arrive, two of them cheese-only.',
    question:'What changes when four more kids arrive?',
+   inference:'is planning for more guests after correctly filling the first order.',
    hint:'Give each new guest two slices. How many extra cheese slices do the two new cheese eaters need?'}
 ];
 
@@ -181,11 +186,19 @@ function studentDetail(id) {
   const evidence=s.summary?s.attempts[s.summary.last]:s.attempts.at(-1);
   const heading=`<div class="eyeline">${currentClass.name} · Age ${s.age}</div><h2>${s.name}</h2>`;
   if(!evidence)return show(heading+'<p>No pizza work submitted this week.</p>');
-  const total=orderTotals(evidence.cart);
+  const newestFirst=s.attempts.slice().reverse();
+  const questions=newestFirst.filter((attempt,i)=>attempt.question &&
+    newestFirst.findIndex(other=>other.question===attempt.question)===i);
+  function questionCard(attempt) {
+    return `<section class="question-pair"><h3>${s.name} asked</h3>
+      <blockquote>“${attempt.question}”</blockquote>
+      <div class="hint"><strong>What Ally noticed</strong><p>${s.name} ${attempt.inference}</p></div></section>`;
+  }
+  const [latest,...earlier]=questions;
+  const past=earlier.length?`<details class="work-example"><summary>Earlier questions (${earlier.length})</summary>
+    ${earlier.map(questionCard).join('')}</details>`:'';
   show(heading+`<h3>${status(s)}</h3>${s.summary?'<p>'+s.summary.count+' of '+s.attempts.length+' attempts</p>':''}
-    <h3>Already knows</h3><p>${evidence.known}</p>
-    <details class="work-example"><summary>Student work</summary><blockquote>“${evidence.note}”</blockquote><p class="evidence">${total.slices} slices · ${total.cheese} cheese · $${total.cost}</p></details>
-    <div class="hint"><strong>Ally’s next question</strong><p>${evidence.hint}</p></div>`);
+    ${latest?questionCard(latest):'<p>No questions recorded this week.</p>'}${past}`);
 }
 function exerciseDetail() {
   show(`<div class="eyeline">Math exercise</div><h2>Pizza lunch rush</h2><p>Feed 18 children two slices each on an $80 budget. Six eat only cheese.</p>

@@ -28,3 +28,5 @@ dialog{width:min(530px,calc(100% - 26px));max-height:87dvh;overflow:auto;overscr
 .class-name{font-size:20px}.class-row{min-height:76px}.ally-toolbar{display:flex;align-items:center;gap:12px;padding:15px 22px;background:var(--mint);border-bottom:1px solid #c7e0d1}
 .ally-toolbar img{object-fit:contain}.results .view-switch{margin:14px 20px}.rank-body{font-size:17px}.work-example{margin-top:16px}.work-example summary{font-weight:700;font-size:14px}
 @media(max-width:640px){.intro-ally{width:58px}.rank-row summary{display:flex;align-items:center;gap:8px}.rank-number{flex:none}.rank-body{font-size:15px}.count{white-space:nowrap;font-size:12px;padding:3px 6px}.ally-toolbar{padding:12px 15px}.ally-toolbar img{width:38px;height:38px}.results .view-switch{margin:12px 14px}.class-name{font-size:18px}.class-row{min-height:62px}}
+
+.question-pair{margin-top:20px}.question-pair h3{font-size:15px}.question-pair blockquote{margin-top:7px}.question-pair .hint{margin-top:9px}.question-pair .hint p{margin-top:3px}
