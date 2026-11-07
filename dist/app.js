@@ -60,11 +60,11 @@ function renderShell(){
   $('skip').textContent=tr('Skip to the activity','Aller à l’activité');
   const home='https://www.alloprof.qc.ca/'+tr('en/students','fr/eleves');
   $('header').innerHTML='<div class="head-inner"><div class="brand"><a href="'+home+'" target="_blank" rel="noopener" aria-label="Alloprof"><img src="./assets/alloprof.svg" alt="Alloprof" width="139" height="30"></a><span class="student-tag">'+tr('Student zone','Zone élèves')+'</span></div><nav class="primary-nav" aria-label="'+tr('Main navigation','Navigation principale')+'">'+act('library',icon('grid')+tr('Activities','Activités'),'nav-item active')+act('notebook',icon('note')+tr('My notebook','Mon cahier'),'nav-item')+'</nav><div class="header-end">'+act('language',icon('globe')+tr('FR','EN'),'lang-btn','aria-label="'+tr('Passer au français','Switch to English')+'"')+act('profile',icon('user'),'avatar','aria-label="'+tr('Student workspace','Espace élève')+'"')+'</div></div>';
-  $('crumbs').innerHTML='<a href="'+home+'" target="_blank" rel="noopener" aria-label="'+tr('Student home','Accueil des élèves')+'">'+icon('home','home-icon')+'</a>'+icon('chev')+'<a href="'+home+'/vl/'+tr('mathematics','mathematiques')+'" target="_blank" rel="noopener">'+tr('Mathematics','Mathématiques')+'</a>'+icon('chev')+act('library',tr('Activities','Activités'),'crumb-btn')+icon('chev')+'<b>'+title()+'</b>';
-  $('hero-info').innerHTML='<span class="category">'+icon('compass')+tr('Real-world activity','Activité en contexte')+'</span><h1 id="page-title">'+title()+'</h1><p class="hero-desc">'+tr('Your class. Your budget. Can you plan a pizza lunch that works for everyone?','Ta classe, ton budget. Peux-tu organiser un dîner pizza qui convient à tout le monde?')+'</p><div class="meta"><span>'+icon('math')+tr('Mathematics','Mathématiques')+'</span><span>'+icon('cap')+level()+'</span><span>'+icon('clock')+tr('10–15 min','10 à 15 min')+'</span></div>';
+  $('crumbs').innerHTML='<a href="'+home+'" target="_blank" rel="noopener" aria-label="'+tr('Student home','Accueil des élèves')+'">'+icon('home','home-icon')+'</a>'+icon('chev')+'<a href="'+home+tr('/vl/mathematics','/bv/mathematiques')+'" target="_blank" rel="noopener">'+tr('Mathematics','Mathématiques')+'</a>'+icon('chev')+act('library',tr('Activities','Activités'),'crumb-btn')+icon('chev')+'<b>'+title()+'</b>';
+  $('hero-info').innerHTML='<span class="category">'+icon('compass')+tr('Real-world activity','Activité en contexte')+'</span><h1 id="page-title">'+title()+'</h1><p class="hero-desc">'+tr('Can you feed your whole class a pizza lunch and stay within budget?','Peux-tu offrir un dîner pizza à toute ta classe tout en respectant le budget?')+'</p><div class="meta"><span>'+icon('math')+tr('Mathematics','Mathématiques')+'</span><span>'+icon('cap')+level()+'</span><span>'+icon('clock')+tr('10–15 min','10 à 15 min')+'</span></div>'+act('resume',tr('Go to activity','Aller à l’activité')+icon('arrow'),'hero-cta action');
   const facts=[['group','24',tr('classmates','élèves')],['pizza','2',tr('slices per person','pointes par élève')],['wallet',money(80),tr('class budget','budget de classe')]];
   $('mission').innerHTML='<div class="section-head"><span class="icon-box">'+icon('flag')+'</span><h2>'+tr('Your mission','Ta mission')+'</h2></div><p class="mission-copy">'+tr('It’s Friday, and your class is having a pizza party! Two pizza trucks have sent their offers. Your job is to <b>feed everyone</b> and <b>stay within budget</b>.','C’est vendredi et ta classe organise un dîner pizza! Deux camions de cuisine de rue proposent des offres. Ta mission est de <b>nourrir tout le monde</b> en <b>respectant le budget</b>.')+'</p><div class="facts">'+facts.map(([i,val,label])=>'<div class="fact"><span class="fact-icon">'+icon(i)+'</span><div><strong>'+val+'</strong><small>'+label+'</small></div></div>').join('')+'</div>';
-  $('coach-invite').innerHTML='<div class="row">'+icon('light')+'<h2>'+tr('Need a hand?','Besoin d’un coup de main?')+'</h2></div><p>'+tr('Ask Allo for a hint that helps you figure out your next step.','Demande un indice à Allo pour trouver ta prochaine étape.')+'</p>'+act('guide',tr('Get a hint','Obtenir un indice')+icon('arrow'));
+  $('coach-invite').innerHTML='<div class="row">'+icon('light')+'<h2>'+tr('Need a hand?','Besoin d’un coup de main?')+'</h2></div><p>'+tr('Allo, your AI guide, has a hint for the step you’re working on.','Allo, ton guide IA, te propose un indice lié à l’étape en cours.')+'</p>'+act('guide',tr('Get a hint','Obtenir un indice')+icon('arrow'));
   $('footer').innerHTML='<span>'+tr('Alloprof activity concept · Interactive demo','Concept d’activité Alloprof · Démo interactive')+'</span>'+act('save',(state.saved?icon('check'):icon('bookmark'))+tr(state.saved?'Activity saved':'Save activity',state.saved?'Activité enregistrée':'Enregistrer l’activité'),'bookmark','aria-pressed="'+state.saved+'"');
   renderProgress();renderWork();renderGuide();
 }
@@ -152,8 +152,8 @@ const hintSteps=[
   ]
 ];
 const starters=[
-  ['Hi! I’m Allo. Let’s plan this lunch together. What would you like a hand with?','Salut! Moi, c’est Allo. Planifions ce dîner ensemble. Qu’est-ce qui te pose problème?'],
-  ['You’ve planned the portions. Now let’s look at what each truck is charging for. Where are you getting stuck?','Les portions sont planifiées. Voyons ce que facture chaque camion. Qu’est-ce qui te pose problème?'],
+  ['Let’s start with portions. Which two facts in your mission tell you how many slices the class needs?','Commençons par les portions. Quelles données de ta mission te permettront de trouver le nombre de pointes nécessaires?'],
+  ['You’ve planned the portions. Look at the two offers. Is each price for one pizza or for a whole bundle?','Les portions sont planifiées. Regarde les deux offres. Chaque prix correspond-il à une pizza ou à un lot?'],
   ['Time to defend your choice. Which part would you like to check: the budget, the order, or your explanation?','Il est temps de justifier ton choix. Que veux-tu vérifier en premier, le budget, la commande ou ta justification?']
 ];
 const examples=[
@@ -265,7 +265,10 @@ document.addEventListener('click',event=>{
       else $('footer').querySelector('button').focus({preventScroll:true});
       $('notice').textContent=state.saved?tr('Activity saved','Activité enregistrée'):tr('Bookmark removed','Marque-page retiré');
       break;
-    case 'resume':closeModal();moveTo(state.done);break;
+    case 'resume':
+      closeModal();moveTo(state.done);
+      if(state.done===0) mission.scrollIntoView({block:'start'});
+      break;
     case 'do-restart':
       closeModal();state.done=0;state.answers=blankAnswers();state.chats=[[],[],[]];guideOpen=false;moveTo(0);break;
   }
