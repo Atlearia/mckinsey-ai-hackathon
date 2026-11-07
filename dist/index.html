@@ -4,15 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#e5ddfd">
-  <meta name="description" content="Plan a class pizza party in a hands-on Secondary 1 math activity with Allo, your step-by-step learning guide.">
-  <title>Pizza Party Planner | Alloprof Activity Studio</title>
-  <link rel="icon" type="image/svg+xml" href="./assets/guide.svg">
+  <meta name="description" content="Run a school-fair pizza counter. Build your order, adapt to the lunch rush, and serve every table.">
+  <title>Pizza lunch rush | Alloprof Activity Studio</title>
+  <link rel="icon" type="image/webp" href="./assets/ally-mascot.webp">
   <link rel="preload" href="./assets/chromatica-Bold.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./counter.css">
+  <link rel="stylesheet" href="./ally-area.css">
+  <link rel="stylesheet" href="./ally-ticket.css">
+  <script defer src="./counter.js"></script>
+  <script defer src="./vendor/html2canvas/html2canvas.min.js"></script>
+  <script defer src="./ally-area.js"></script>
+  <script defer src="./ally-ticket.js"></script>
   <script defer src="./app.js"></script>
 </head>
 <body>
-  <a class="skip" href="#work" id="skip">Skip to the activity</a>
+  <a class="skip" href="#work" id="skip">Skip to the counter</a>
   <header id="header"></header>
   <main class="wrap" id="main">
     <nav class="breadcrumbs" id="crumbs" aria-label="Breadcrumb"></nav>
@@ -20,20 +27,17 @@
       <div id="hero-info" class="hero-info"></div>
       <div class="hero-art"><img src="./assets/pizza-truck.webp" alt="" width="1024" height="683"></div>
     </section>
-    <div class="activity-grid">
-      <div class="column">
-        <section id="mission" class="mission panel"></section>
-        <section id="work" class="workspace panel" tabindex="-1" aria-labelledby="work-title"></section>
+    <nav id="phases" class="phases" aria-label="Shift progress"></nav>
+    <section id="work" tabindex="-1" aria-labelledby="work-title">
+      <div id="brief"></div>
+      <div class="counter-grid">
+        <div id="board" class="board"></div>
+        <aside id="ticket"></aside>
       </div>
-      <aside class="side">
-        <section id="progress" class="progress panel"></section>
-        <section id="coach-invite" class="coach-invite"></section>
-      </aside>
-    </div>
+    </section>
   </main>
   <footer class="wrap" id="footer"></footer>
-  <div id="guide-slot"></div>
-  <div id="launcher-slot"></div>
+  <div id="guide-slot"></div><div id="launcher-slot"></div>
   <dialog id="modal" aria-labelledby="modal-title"></dialog>
   <div id="notice" role="status" class="sr-only"></div>
 </body>

@@ -1,0 +1,57 @@
+.ally-picker[open] {
+  position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none;
+  margin: 0; padding: 0; border: 0; border-radius: 0; box-shadow: none;
+  background: transparent; overflow: hidden; cursor: crosshair; touch-action: none; user-select: none;
+}
+.ally-picker::backdrop { background: rgba(42,32,71,.18); }
+.ally-drag-box {
+  position: absolute; pointer-events: none; border: 2px solid #6546bc; border-radius: 3px;
+  background: rgba(213,199,255,.18); box-shadow: 0 0 0 1px #fff, 0 0 0 200vmax rgba(36,25,59,.27);
+}
+.ally-cancel {
+  position: fixed; top: max(12px,env(safe-area-inset-top)); right: 14px;
+  width: 44px; height: 44px; display: grid; place-items: center;
+  border: 1px solid #ded6e8; border-radius: 50%; background: white; color: #38294e;
+  box-shadow: 0 3px 14px #27183822; cursor: pointer;
+}
+.ally-cancel svg { width: 19px; height: 19px; }
+.ally-picker[aria-busy] { cursor: progress; }
+.ally-picker[open] { box-shadow: inset 0 0 0 2px #8264b4; }
+.ally-capture-status:not(:empty) {
+  position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+  padding: 6px 12px; background: white; border-radius: 8px; font-size: 14px;
+}
+.guide-panel .composer { padding: 3px; gap: 2px; border: 1px solid #cdc3d9; border-radius: 16px; background: #fff; }
+.guide-panel .composer:focus-within { border-color: #8263b3; box-shadow: 0 0 0 2px #8263b319; }
+.guide-panel .composer input { border: 0; background: transparent; padding: 9px 5px; outline: none; }
+.guide-panel .composer .send { border-radius: 12px; }
+.guide-panel .composer:has(input:placeholder-shown) .send { background: #ede8f2; color: #746884; }
+.ally-image-button { position: relative; display: grid; place-items: center; flex: 0 0 44px; height: 44px; border: 0; border-radius: 12px; color: #55416e; background: transparent; cursor: pointer; }
+.ally-image-button:hover,.ally-image-button:focus-visible { background: #f2edf8; }
+.ally-image-button svg { width: 21px; height: 21px; }
+.ally-tooltip { position: absolute; bottom: calc(100% + 3px); left: 0; border-radius: 6px; padding: 4px 7px; background: #34294f; color: white; font-size: 12px; white-space: nowrap; opacity: 0; pointer-events: none; }
+.ally-image-button:focus-visible .ally-tooltip { opacity: 1; }
+@media (hover:hover) { .ally-image-button:hover .ally-tooltip { opacity: 1; } }
+.ally-quotation { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.bubble .ally-quotation { display: block; opacity: .88; font-size: 12px; border-left: 2px solid; padding-left: 6px; margin-bottom: 4px; }
+.guide-panel { bottom: 22px; height: auto; max-height: min(510px,calc(100dvh - 36px)); }
+.guide-panel .chat-area { flex: 0 1 auto; min-height: 0; }
+.guide-panel .chat-area:empty { display: none; }
+.guide-panel .guide-bottom,.guide-panel .guide-head { flex-shrink: 0; }
+.guide-panel .guide-head { padding: 10px 14px; }
+.guide-panel .guide-head img { width: 36px; height: 36px; object-fit: contain; }
+.guide-panel .guide-head h2 { font-size: 18px; }
+.ally-sent-image { margin: 0; padding: 6px 8px; }
+.ally-sent-image img { display: block; width: auto; height: auto; max-width: min(220px,100%); max-height: 145px; object-fit: contain; border-radius: 4px; }
+.ally-sent-image figcaption { margin-top: 4px; font-size: 12px; }
+.guide-panel button, .launcher, .ally-cancel { touch-action: manipulation; }
+@media(max-width:650px) {
+  .composer input { font-size: 16px; }
+  .guide-panel { bottom: max(12px,env(safe-area-inset-bottom)); }
+}
+
+.shot-questions{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.shot-question{border:1px solid #d0c5df;border-radius:10px;background:#faf7ff;color:#49365f;padding:6px 10px;min-height:32px;font-size:13px;line-height:1.35;text-align:left;font-weight:600}
+.shot-question:hover,.shot-question:focus-visible{background:#eee8f8}
+.guide-bottom:has(#message:not(:placeholder-shown)) .shot-questions{display:none}
+.learner-fields{display:grid;gap:12px;margin:14px 0 20px}.learner-fields label{font-weight:700;font-size:14px;display:grid;gap:4px}.learner-fields select{padding:9px;border-radius:9px;border:1px solid #ccc6da;background:#faf8ff}

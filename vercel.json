@@ -1,5 +1,8 @@
 {
   "framework": null,
   "buildCommand": "",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "functions": {
+    "api/ally.mjs": { "includeFiles": "ally-system-prompt.txt", "maxDuration": 45 }
+  }
 }
