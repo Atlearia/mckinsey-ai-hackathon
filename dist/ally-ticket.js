@@ -52,8 +52,20 @@ const allyTicket=(()=>{
     const balanceQuestion=left<0
       ? tr('Why am I $'+(-left)+' over budget?','Pourquoi ai-je dépassé le budget de '+(-left)+' $?')
       : tr('Why do I have $'+left+' left?','Pourquoi me reste-t-il '+left+' $?');
-    return act('play-ticket',tr('How did I get this total?','D’où vient ce total?'),'shot-question',
-      'data-entry="'+index+'" aria-haspopup="dialog"')+act('draft-question',balanceQuestion,'shot-question');
+    return act('generate-ticket',tr('How did I get this total?','D’où vient ce total?'),'shot-question',
+      'data-entry="'+index+'"')+act('draft-question',balanceQuestion,'shot-question');
+  }
+  function attachment(entry,index){
+    const ticket=entry.ticket,first=ticket.quantities.findIndex(q=>q>0);
+    const qty=ticket.quantities.reduce((sum,q)=>sum+q,0);
+    const thumb='<span class="ticket-thumb" aria-hidden="true"><i></i>'+
+      (first>=0?'<img alt="" src="'+pizzaArt(first)+'">':'')+'</span>';
+    if(Date.now()<entry.readyAt)return '<div class="ticket-generating" role="status" data-generating="'+index+'">'+thumb+
+      '<b>'+tr('Preparing your receipt…','Préparation de ton billet…')+'</b></div>';
+    return act('play-ticket',thumb+'<span class="ticket-card-copy"><b>'+
+      tr('Build your receipt','Recrée ton billet')+'</b><small>'+qty+(qty===1?' pizza':' pizzas')+' · '+money(total(ticket))+'</small></span>'+
+      '<span class="ticket-open-icon">'+icon('arrow')+'</span>',
+      'ticket-attachment','data-entry="'+index+'" aria-haspopup="dialog"');
   }
   function play(ticket,opener){
     if(!valid(ticket)||document.querySelector('dialog[open]'))return;
@@ -158,5 +170,5 @@ const allyTicket=(()=>{
     dialog.onclose=()=>{dialog.remove();opener?.focus({preventScroll:true});};
     document.body.append(dialog);show(0);dialog.showModal();next.focus({preventScroll:true});
   }
-  return {snapshot,fromEntry,suggestions,play};
+  return {snapshot,fromEntry,suggestions,attachment,play};
 })();

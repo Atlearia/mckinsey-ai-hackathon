@@ -266,6 +266,25 @@ async function requestAllyReply(history,entry,question){
     }
   }
 }
+function generateTicket(index){
+  const history=state.chats[guideStep()];
+  const source=history[index];
+  if(source!==history.at(-1)||source?.kind!=='image')return;
+  const ticket=allyTicket.fromEntry(source);
+  if(!ticket)return;
+  const entry={kind:'animation',question:['How did I get this total?','D’où vient ce total?'],ticket,readyAt:Date.now()+3000};
+  saveChatEntry(entry);
+  renderGuide();$('message')?.focus({preventScroll:true});
+  setTimeout(()=>{
+    if(history!==state.chats[guideStep()])return;
+    const i=history.indexOf(entry),log=document.querySelector('.chat-area');
+    const placeholder=log?.querySelector('[data-generating="'+i+'"]');
+    if(!placeholder)return;
+    const atBottom=log.scrollHeight-log.clientHeight-log.scrollTop<2;
+    placeholder.outerHTML=allyTicket.attachment(entry,i);
+    if(atBottom)log.scrollTop=log.scrollHeight;
+  },Math.max(0,entry.readyAt-Date.now()));
+}
 function renderGuide(){
   const i=guideStep(),lang=state.lang==='fr'?1:0;
   $('launcher-slot').innerHTML=guideOpen?'':act('toggle-guide','<img src="./assets/ally-mascot.webp" alt=""><span>Ally</span>','launcher','aria-label="'+tr('Ask Ally','Demander à Ally')+'"');
@@ -273,6 +292,7 @@ function renderGuide(){
   const selected=allyArea.current();
   const history=state.chats[i];
   const messages=history.map((c,index)=>{
+    if(c.kind==='animation')return '<div class="bubble user">'+safe(c.question[lang])+'</div>'+allyTicket.attachment(c,index);
     if(c.kind==='image'){
       if(!c.image?.src?.startsWith('data:image/jpeg;base64,'))return '';
       const text=pendingReplies.has(c)?tr('Thinking…','Un instant…'):c.reply?.[lang];
@@ -390,9 +410,10 @@ document.addEventListener('click',event=>{
       break;
     }
     case 'select-area':allyArea.open();break;
+    case 'generate-ticket':generateTicket(Number(btn.dataset.entry));break;
     case 'play-ticket': {
       const entry=state.chats[guideStep()][Number(btn.dataset.entry)];
-      allyTicket.play(allyTicket.fromEntry(entry),btn);
+      if(entry?.kind==='animation' && Date.now()>=entry.readyAt)allyTicket.play(allyTicket.fromEntry(entry),btn);
       break;
     }
     case 'close-guide':showGuide(false);break;
